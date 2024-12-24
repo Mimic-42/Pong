@@ -19,8 +19,21 @@ def ball_animation():
         # ball_restart()
         score_time = pygame.time.get_ticks()
 
-    if ball.colliderect(player) or ball.colliderect(opponent):
-        ball_speed_x *= -1
+    if ball.colliderect(player) and ball_speed_x > 0: 
+        if abs(ball.right - player.left) < 10:
+            ball_speed_x *= -1
+        elif abs(ball.bottom - player.top) < 10 and ball_speed_y > 0:
+            ball_speed_y *= -1
+        elif abs(ball.top - player.bottom) < 10 and ball_speed_y < 0:
+            ball_speed_y *= -1
+
+    if ball.colliderect(opponent) and ball_speed_x < 0:
+        if abs(ball.left - opponent.right) < 10:
+            ball_speed_x *= -1
+        elif abs(ball.bottom - opponent.top) < 10 and ball_speed_y > 0:
+            ball_speed_y *= -1
+        elif abs(ball.top - opponent.bottom) < 10 and ball_speed_y < 0:
+            ball_speed_y *= -1
 
 def player_animation():
     player.y += player_speed
@@ -97,6 +110,9 @@ game_font = pygame.font.Font("freesansbold.ttf",32)
 
 # Score timer
 score_time = True
+
+# Sound
+pong_sound = pygame.mixer.Sound("pong.ogg")
 
 while True:
     # Handling input
